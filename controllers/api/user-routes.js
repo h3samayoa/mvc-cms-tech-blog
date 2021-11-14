@@ -71,22 +71,33 @@ router.post('/', (req, res) => {
 router.post('/login', (req, res) => {
     User.findOne({
         where: {
-            email: req.body.email
+            username: req.body.username
         }
     })
     .then(dbUserData => {
         if(!dbUserData) {
             res.status(400).json({
-                message: 'Wrong password or email'
+                message: 'No user with that name'
             });
             return;
         }
+
+        req.session.save(() => {
+            req.session.user_id = dbUserData.id;
+            req.session.username = dbUserData.username;
+            req.session.loggedIn = true;
+
+            res.json({
+                user: dbUserData,
+                message: 'Log in succesful'
+            });
+        });
 
         const validPass = dbUserData.checkPassword(req.body.password);
 
         if(!validPass) {
             res.status(400).json({
-                message: 'Wrong password or email'
+                message: 'Wrong password'
             })
             return;
         }
@@ -112,6 +123,6 @@ router.post('/logout', (req, res) => {
     } else {
         res.status(404).end();
     }
-});
+})
 
 module.exports = router;
