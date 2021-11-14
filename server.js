@@ -14,6 +14,16 @@ const PORT = process.env.PORT || 3001;
 
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
+const sess = {
+    secret: process.env.DB_SECRET,
+    cookie: {},
+    resave: false,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: sequelize
+    })
+};
+
 app.engine('handlebars', hbs.engine);
 app.set('view-engine', 'handlebars');
 
@@ -24,6 +34,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(routes);
+app.use(session(sess))
 
 sequelize.sync();
 
