@@ -22,14 +22,6 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true
-        }
-    },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -38,6 +30,16 @@ User.init({
         }
     }
 }, {
+    hooks: {
+        async beforeCreate(newData) {
+            newData.password = await bcrypt.hash(newData.password, 10);
+            return newData;
+        },
+        async beforeUpdate(updatedData) {
+            updatedData.password = await bcrypt.hash(updatedData.password, 10);
+            return updatedData;
+        }
+    }, 
     sequelize,
     timestamps: false,
     freezeTableName: true,
