@@ -30,7 +30,7 @@ router.get('/', withAuth, (req, res) => {
         const posts = dbPostData.map(post => post.get({
             plain: true
         }));
-        res.render('dashboard', {
+        res.render('dashboard.handlebars', {
             posts,
             loggedIn: true
         });
@@ -72,7 +72,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
             plain: true
         });
 
-        res.render('edit-post', {
+        res.render('edit-post.handlebars', {
             post,
             loggedIn: true
         });
@@ -84,7 +84,7 @@ router.get('/edit/:id', withAuth, (req, res) => {
 })
 
 router.get('/new', (req, res) => {
-    res.render('add-post', {
+    res.render('add-post.handlebars', {
         loggedIn: true
     })
 })

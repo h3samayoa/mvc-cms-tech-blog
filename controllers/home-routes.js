@@ -26,8 +26,7 @@ router.get('/', (req, res) => {
         const posts = dbPostData.map(post => post.get({
             plain: true
         }));
-
-        res.render('homepage', {
+        res.render('homepage.handlebars', {
             posts,
             loggedIn: req.session.loggedIn,
         });
@@ -69,7 +68,7 @@ router.get('/post/:id', (req, res) => {
             plain: true
         });
 
-        res.render('single-post', {
+        res.render('single-post.handlebars', {
             post,
             loggedIn: req.session.loggedIn,
         });
@@ -86,7 +85,7 @@ router.get('/login', (req, res) => {
         return;
     }
     
-    res.render('login');
+    res.render('login.handlebars');
 });
 
 router.get('/signup', (req, res) => {
@@ -95,7 +94,7 @@ router.get('/signup', (req, res) => {
         return;
     }
 
-    res.render('signup');
+    res.render('signup.handlebars');
 })
 
 router.get('*', (req, res) => {
