@@ -34,7 +34,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(routes);
-app.use(session(sess))
+app.use(session(sess));
 
 sequelize.sync();
 
